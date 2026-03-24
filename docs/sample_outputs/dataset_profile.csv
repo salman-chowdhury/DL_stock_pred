@@ -1,0 +1,4 @@
+symbol,rows,start_date,end_date,feature_columns,has_volume,has_change_pct,n_train_sequences,n_val_sequences,n_test_sequences,train_target_start,train_target_end,val_target_start,val_target_end,test_target_start,test_target_end
+dowjones,1256,2020-05-22,2025-05-20,"open,high,low,close,range_hl,return_1d,change_pct_lag1,volume",True,True,888,253,95,2020-06-22,2023-12-29,2024-01-02,2024-12-31,2025-01-02,2025-05-20
+nasdaq100,1255,2020-05-22,2025-05-20,"open,high,low,close,range_hl,return_1d,change_pct_lag1",False,True,888,252,95,2020-06-22,2023-12-29,2024-01-02,2024-12-31,2025-01-02,2025-05-20
+sp500,1255,2020-05-22,2025-05-20,"open,high,low,close,range_hl,return_1d,change_pct_lag1",False,True,888,252,95,2020-06-22,2023-12-29,2024-01-02,2024-12-31,2025-01-02,2025-05-20

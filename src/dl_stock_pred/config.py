@@ -67,3 +67,30 @@ class ExperimentConfig:
     split: SplitConfig = field(default_factory=SplitConfig)
     train: TrainingConfig = field(default_factory=TrainingConfig)
     search: SearchSpace = field(default_factory=SearchSpace)
+
+
+def validate_experiment_config(config: ExperimentConfig) -> None:
+    if config.train.window_size <= 0:
+        raise ValueError("window_size must be positive.")
+    if config.train.batch_size <= 0:
+        raise ValueError("batch_size must be positive.")
+    if config.train.max_epochs <= 0:
+        raise ValueError("max_epochs must be positive.")
+    if config.train.patience <= 0:
+        raise ValueError("patience must be positive.")
+    if config.max_trials_per_model is not None and config.max_trials_per_model <= 0:
+        raise ValueError("max_trials_per_model must be positive when provided.")
+    if not config.model_types:
+        raise ValueError("At least one model type must be configured.")
+    if not config.data_files:
+        raise ValueError("At least one dataset must be configured.")
+
+    split = config.split
+    if not (split.train_end_year < split.val_year < split.test_year):
+        raise ValueError(
+            "Split years must be strictly ordered as train_end_year < val_year < test_year."
+        )
+
+    missing_files = [str(path) for path in config.data_files.values() if not Path(path).exists()]
+    if missing_files:
+        raise FileNotFoundError(f"Missing data files: {', '.join(missing_files)}")
