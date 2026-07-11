@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: pip install -e .
+      - name: Run data-pipeline tests
+        run: pytest -q
+      - name: Run smoke experiment
+        run: dl-stock-pred --max-epochs 1 --patience 1 --max-trials-per-model 1 --no-plots --output-dir outputs/ci-smoke
+      - name: Upload smoke artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: forecasting-smoke-artifacts
+          path: outputs/ci-smoke
+          if-no-files-found: error
