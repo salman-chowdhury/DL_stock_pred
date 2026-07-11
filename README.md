@@ -1,6 +1,6 @@
 # DL Stock Prediction (Production Refactor)
 
-Resume-ready data science project for **time-series forecasting of major US indices** using recurrent deep learning models (**RNN, LSTM, GRU**) with robust preprocessing, chronological evaluation, and reproducible experiment artifacts.
+Time-series forecasting study for major US indices using recurrent models (**RNN, LSTM, GRU**) and explicit classical baselines with chronological, reproducible evaluation.
 
 ## Project Highlights
 
@@ -9,6 +9,8 @@ Resume-ready data science project for **time-series forecasting of major US indi
 - Feature engineering + leakage-safe scaling (fit on train period only).
 - Hyperparameter search with early stopping.
 - Per-model metrics and saved predictions/plots.
+- Rolling-origin persistence, moving-average, linear-regression, and random-forest baselines.
+- MAE, RMSE, MASE, directional accuracy, naive-relative improvement, and seed variability.
 - Tests for data loading and split integrity.
 
 ## Data
@@ -85,10 +87,19 @@ Each run writes artifacts to `outputs/run_<timestamp>/` (or your custom `--outpu
   - `plot_<symbol>_<model>.png` (unless `--no-plots`)
   - `champion.json`
 
+## Baseline evaluation
+
+```bash
+python scripts/run_baselines.py
+```
+
+The [committed 2025 rolling-origin report](evaluation/baselines-v1/report.md) evaluates all four baselines on all three index datasets. Linear and tree models use only prior targets and refit every 20 observations. See the [case study](docs/case-study.md) for the architecture and interpretation limits.
+
 ## Tests
 
 ```bash
-pytest
+ruff check .
+pytest -q
 ```
 
 Current tests validate:
@@ -102,6 +113,10 @@ Current tests validate:
 This repository was fully cleaned and restructured from a mixed collection of scripts/notebooks/archives into a professional, maintainable pipeline suitable for portfolio and resume use.
 
 Legacy coursework artifacts are preserved in `archive/legacy/` and are not used by the active pipeline.
+
+## Forecast error is not trading profit
+
+Index prices are highly autocorrelated, so persistence can produce low next-level error without a useful return signal. This project does not claim profitability: it does not model execution timing, transaction costs, slippage, turnover, position sizing, drawdown, or risk-adjusted performance.
 
 ## License
 

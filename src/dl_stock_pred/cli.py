@@ -97,7 +97,9 @@ def main() -> None:
     config = build_config(args)
     summary = run_experiment(config)
     print("\nTop models by validation RMSE:")
-    print(summary[["symbol", "model_type", "val_rmse", "test_rmse"]].head(12).to_string(index=False))
+    print(
+        summary[["symbol", "model_type", "val_rmse", "test_rmse"]].head(12).to_string(index=False)
+    )
     print(f"\nSaved outputs to: {config.output_dir}")
 
 
