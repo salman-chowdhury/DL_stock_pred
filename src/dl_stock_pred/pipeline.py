@@ -26,10 +26,7 @@ from .train import (
 
 def _serialize_config(config: ExperimentConfig) -> dict[str, Any]:
     raw = asdict(config)
-    data_files = {
-        key: str(path)
-        for key, path in config.data_files.items()
-    }
+    data_files = {key: str(path) for key, path in config.data_files.items()}
     raw["data_files"] = data_files
     raw["output_dir"] = str(config.output_dir)
     return raw
@@ -234,7 +231,10 @@ def run_experiment(config: ExperimentConfig) -> pd.DataFrame:
             if config.save_plots:
                 _save_plot(
                     output_path=index_dir / f"plot_{model_tag}.png",
-                    title=f"{symbol.upper()} - {model_type.upper()} (test year {config.split.test_year})",
+                    title=(
+                        f"{symbol.upper()} - {model_type.upper()} "
+                        f"(test year {config.split.test_year})"
+                    ),
                     dates=prepared.test_dates,
                     eval_output=best_trial["test_eval"],
                 )
@@ -266,9 +266,7 @@ def run_experiment(config: ExperimentConfig) -> pd.DataFrame:
         champion = min(per_model_best, key=lambda x: x["val_rmse"])
         (index_dir / "champion.json").write_text(json.dumps(champion, indent=2))
 
-    summary_df = pd.DataFrame(summary_rows).sort_values(
-        by=["symbol", "val_rmse", "test_rmse"]
-    )
+    summary_df = pd.DataFrame(summary_rows).sort_values(by=["symbol", "val_rmse", "test_rmse"])
     summary_df.to_csv(output_root / "summary.csv", index=False)
 
     # A compact human-readable report

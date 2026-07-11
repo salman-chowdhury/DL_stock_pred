@@ -3,7 +3,6 @@ from pathlib import Path
 from dl_stock_pred.config import SplitConfig, TrainingConfig
 from dl_stock_pred.data import load_index_dataframe, prepare_supervised_data
 
-
 DATA_FILES = {
     "sp500": Path("data/raw/sp500_5y.csv"),
     "nasdaq100": Path("data/raw/nasdaq100_5y.csv"),
@@ -27,7 +26,16 @@ def test_prepare_supervised_data_has_non_empty_splits() -> None:
 
     prepared = prepare_supervised_data(
         df=df,
-        feature_candidates=["open", "high", "low", "close", "range_hl", "return_1d", "change_pct_lag1", "volume"],
+        feature_candidates=[
+            "open",
+            "high",
+            "low",
+            "close",
+            "range_hl",
+            "return_1d",
+            "change_pct_lag1",
+            "volume",
+        ],
         target_column="close",
         split_cfg=SplitConfig(train_end_year=2023, val_year=2024, test_year=2025),
         train_cfg=TrainingConfig(window_size=20),

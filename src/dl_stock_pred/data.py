@@ -29,12 +29,7 @@ class PreparedData:
 
 def _normalize_col(col: str) -> str:
     return (
-        col.strip()
-        .lower()
-        .replace(" ", "")
-        .replace("/", "")
-        .replace(".", "")
-        .replace("%", "pct")
+        col.strip().lower().replace(" ", "").replace("/", "").replace(".", "").replace("%", "pct")
     )
 
 
@@ -219,9 +214,7 @@ def prepare_supervised_data(
 
     window = train_cfg.window_size
     if len(df) <= window:
-        raise ValueError(
-            f"Not enough rows ({len(df)}) for window size {window}."
-        )
+        raise ValueError(f"Not enough rows ({len(df)}) for window size {window}.")
 
     train_X_list: list[np.ndarray] = []
     train_y_list: list[np.ndarray] = []
