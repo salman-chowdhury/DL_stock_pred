@@ -1,6 +1,8 @@
-# DL Stock Prediction (Production Refactor)
+# Time-Series Forecasting: Recurrent Models and Baselines
 
 Time-series forecasting study for major US indices using recurrent models (**RNN, LSTM, GRU**) and explicit classical baselines with chronological, reproducible evaluation.
+
+**Review the [rolling-origin baseline report](evaluation/baselines-v1/report.md) first.** Persistence had the lowest MAE among the four tested classical baselines on each of the three datasets. The recurrent pipeline and baseline study are separate experiments; this result does not establish a recurrent model win or a profitable trading strategy.
 
 ## Project Highlights
 
@@ -110,7 +112,7 @@ Current tests validate:
 
 ## Notes on Refactor
 
-This repository was fully cleaned and restructured from a mixed collection of scripts/notebooks/archives into a professional, maintainable pipeline suitable for portfolio and resume use.
+This repository was fully cleaned and restructured from a mixed collection of scripts/notebooks/archives into a packaged pipeline with a CLI, explicit splits and tests.
 
 Legacy coursework artifacts are preserved in `archive/legacy/` and are not used by the active pipeline.
 
